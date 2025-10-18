@@ -9,7 +9,6 @@ package main
 import "fmt"
 
 func main() {
-// здесь вам нужно написать свой код
      var money int
     fmt.Scan(&money)
 
