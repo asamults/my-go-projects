@@ -6,29 +6,40 @@ import (
     "fmt"
     "log"
     "os"
+    "strings"
+    "sync"
     "time"
 )
 
-func countLines(filename string) (int, error) {
+type FileStats struct {
+    Lines int
+    Words int
+    Chars int
+}
+
+func countFileStats(filename string) (FileStats, error) {
     file, err := os.Open(filename)
     if err != nil {
-        return 0, err
+        return FileStats{}, err
     }
     defer file.Close()
 
     scanner := bufio.NewScanner(file)
-    count := 0
+    stats := FileStats{}
+
     for scanner.Scan() {
-        count++
+        stats.Lines++
+        line := scanner.Text()
+        stats.Words += len(strings.Fields(line))
+        stats.Chars += len(line) + 1 // +1 для символа перевода строки
     }
 
-    return count, scanner.Err()
+    return stats, scanner.Err()
 }
 
 func main() {
     start := time.Now()
 
-    // Используем стандартный пакет flag для CLI-аргументов
     jsonOutput := flag.Bool("json", false, "вывод в JSON-формате")
     flag.Parse()
     args := flag.Args()
@@ -39,28 +50,37 @@ func main() {
         return
     }
 
-    results := make(map[string]int)
+    results := make(map[string]FileStats)
+    var mu sync.Mutex
+    var wg sync.WaitGroup
 
     for _, filename := range args {
-        count, err := countLines(filename)
-        if err != nil {
-            log.Printf("Ошибка при чтении %s: %v", filename, err)
-            continue
-        }
-        results[filename] = count
+        wg.Add(1)
+        go func(f string) {
+            defer wg.Done()
+            stats, err := countFileStats(f)
+            if err != nil {
+                log.Printf("Ошибка при чтении %s: %v", f, err)
+                return
+            }
+            mu.Lock()
+            results[f] = stats
+            mu.Unlock()
+        }(filename)
     }
 
+    wg.Wait() // Ждём, пока все горутины завершатся
     elapsed := time.Since(start)
 
     if *jsonOutput {
         fmt.Print("{\n")
-        for name, count := range results {
-            fmt.Printf("  \"%s\": %d,\n", name, count)
+        for name, stats := range results {
+            fmt.Printf("  \"%s\": {\"lines\": %d, \"words\": %d, \"chars\": %d},\n", name, stats.Lines, stats.Words, stats.Chars)
         }
         fmt.Printf("  \"elapsed_ms\": %d\n}\n", elapsed.Milliseconds())
     } else {
-        for name, count := range results {
-            fmt.Printf("%s: %d строк(и)\n", name, count)
+        for name, stats := range results {
+            fmt.Printf("%s: %d строк(и), %d слов(а), %d символ(ов)\n", name, stats.Lines, stats.Words, stats.Chars)
         }
         fmt.Printf("Время выполнения: %d мс\n", elapsed.Milliseconds())
     }
