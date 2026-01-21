@@ -22,18 +22,13 @@ It serves as a portfolio for **Junior Go / Software Engineer roles (UK / Remote)
 - Simple chat server and client using TCP sockets.
 - Demonstrates Go networking, concurrency (goroutines), and channels.
 
-### 5. PISCINE (submodule) (`PISCINE`)
-- Collection of small Go exercises.
-- Added as a **submodule** to preserve full Git history.
-- Demonstrates Go fundamentals, algorithms, and problem-solving.
-- To clone the repository including submodule:
-```bash
+
 git clone --recurse-submodules https://github.com/asamults/my-go-projects.git
 
 git submodule update --init --recursive
 
 
-6. Git Cheatsheet (git_cheatsheet.md)
+5. Git Cheatsheet (git_cheatsheet.md)
 
     Reference guide for Git commands, created to support workflow in Go projects.
 
@@ -54,7 +49,6 @@ my-go-projects/
 ├── multiplication/
 ├── phone/
 ├── tcpchat/
-├── PISCINE/       # submodule
 ├── git_cheatsheet.md
 ├── README.md
 
