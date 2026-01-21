@@ -2,7 +2,7 @@
 
 ## Purpose
 This repository contains personal **Go projects** demonstrating programming skills, automation, and CLI tools. 
-It serves as a portfolio for **Junior Go / Software Engineer roles**.
+It serves as a portfolio for **Junior Go / Software Engineer roles (UK / Remote)**.
 
 ## Projects
 
@@ -22,44 +22,56 @@ It serves as a portfolio for **Junior Go / Software Engineer roles**.
 - Simple chat server and client using TCP sockets.
 - Demonstrates Go networking, concurrency (goroutines), and channels.
 
-### 5. PISCINE (`PISCINE`)
+### 5. PISCINE (submodule) (`PISCINE`)
 - Collection of small Go exercises.
-- Demonstrates learning of Go fundamentals, algorithms, and problem-solving.
+- Added as a **submodule** to preserve full Git history.
+- Demonstrates Go fundamentals, algorithms, and problem-solving.
+- To clone the repository including submodule:
+```bash
+git clone --recurse-submodules https://github.com/asamults/my-go-projects.git
 
-### 6. Git Cheatsheet (`git_cheatsheet.md`)
-- Reference guide for Git commands, created to support workflow in Go projects.
+git submodule update --init --recursive
 
-## Technologies
-- Go (1.20+)
-- Standard Library: fmt, os, net, bufio, etc.
-- Linux / CLI environment
-- Git for version control
 
-## Structure
-```text
+6. Git Cheatsheet (git_cheatsheet.md)
+
+    Reference guide for Git commands, created to support workflow in Go projects.
+
+Technologies
+
+    Go (1.20+)
+
+    Standard Library: fmt, os, net, bufio, etc.
+
+    Linux / CLI environment
+
+    Git for version control and submodule management
+
+Repository Structure
+
 my-go-projects/
 ├── linecounter/
 ├── multiplication/
 ├── phone/
 ├── tcpchat/
-├── PISCINE/
+├── PISCINE/       # submodule
 ├── git_cheatsheet.md
 ├── README.md
 
 Skills Demonstrated
 
-Go programming: functions, structs, slices, maps, concurrency
+    Go programming: functions, structs, slices, maps, concurrency
 
-CLI development and automation
+    CLI development and automation
 
-Networking (TCP sockets)
+    Networking (TCP sockets)
 
-File I/O and data parsing
+    File I/O and data parsing
 
-Git workflow and project organisation
+    Git workflow, including submodules
 
 Languages
 
-English — fluent
+    English — fluent
 
-Russian — native
+    Russian — native
